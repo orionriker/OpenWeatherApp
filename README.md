@@ -34,6 +34,9 @@ To use OpenWeatherApp, simply enter the name of the city you want to check the w
 
 4. Open your browser and navigate to `http://localhost:3000` to view the application.
 
+## Screenshots
+![Screenshot](https://github.com/orionriker/OpenWeatherApp/edit/github-assets/.png)
+
 ## Technologies Used
 
 - **Node.js**: JavaScript runtime environment
