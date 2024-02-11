@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenWeatherApp</title>
+    <!-- Include DaisyUI's dark theme and styles -->
+    <link href="/assets/css/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.12/css/weather-icons.min.css">
+</head>
+
+<body class="container flex flex-col items-center mx-auto">
+    <h1 class="text-3xl font-bold mb-4">OpenWeatherApp</h1>
+    <!-- Form to input city -->
+    <form action="/" method="POST" class="mb-6 mt-6">
+        <div class="flex items-center">
+            <input type="text" name="city" placeholder="Enter city"
+                class="input input-bordered w-full max-w-xs">
+            <button type="submit"
+                class="btn btn-primary">Get
+                Weather</button>
+        </div>
+    </form>
+    <!-- Display weather information -->
+    <div id="weather" class="grid lg:grid-cols-2 gap-8 items-center mt-5">
+        <% if (weather && weather.name) { %>
+            <!-- Weather Icon -->
+            <div class="text-8xl mx-auto">
+                <i class="wi <%= getWeatherIcon(weather.weather[0].id) %>"></i>
+            </div>
+            <!-- Weather Info -->
+            <div class="grid lg:grid-cols-2 gap-10 lg:gap-4 items-center">
+                <div>
+                    <p class="font-bold">City</p>
+                    <p><%= weather.name %></p>
+                    <p class="font-bold mt-3">Country</p>
+                    <p><%= weather.sys.country %></p>
+                    <p class="font-bold mt-3">Temperature</p>
+                    <p><%= Math.round(weather.main.temp - 273.15) %>°C</p>
+                    <p class="font-bold mt-3">Humidity</p>
+                    <p><%= weather.main.humidity %>%</p>
+                </div>
+
+                <div>
+                    <p class="font-bold">Weather</p>
+                    <p><%= weather.weather[0].description %></p>
+                    <p class="font-bold mt-3">Pressure</p>
+                    <p><%= weather.main.pressure %>hPa</p>
+                    <p class="font-bold mt-3">Wind Speed</p>
+                    <p><%= weather.wind.speed %>m/s</p>
+                    <p class="font-bold mt-3">Wind Direction</p>
+                    <p><%= weather.wind.deg %>°</p>
+                </div>
+            </div>
+        <% } else if (error) { %>
+            <p><%= error %></p>
+        <% } %>
+    </div>
+
+    <%
+    function getWeatherIcon(weatherId) {
+        // Mapping of weather condition IDs to Weather Icons class names
+        const iconMappings = {
+            200: 'wi-thunderstorm', // Thunderstorm with light rain
+            201: 'wi-thunderstorm', // Thunderstorm with rain
+            202: 'wi-thunderstorm', // Thunderstorm with heavy rain
+            210: 'wi-thunderstorm', // Light thunderstorm
+            211: 'wi-thunderstorm', // Thunderstorm
+            212: 'wi-thunderstorm', // Heavy thunderstorm
+            221: 'wi-thunderstorm', // Ragged thunderstorm
+            230: 'wi-thunderstorm', // Thunderstorm with light drizzle
+            231: 'wi-thunderstorm', // Thunderstorm with drizzle
+            232: 'wi-thunderstorm', // Thunderstorm with heavy drizzle
+            300: 'wi-sprinkle', // Light intensity drizzle
+            301: 'wi-sprinkle', // Drizzle
+            302: 'wi-rain-mix', // Heavy intensity drizzle
+            310: 'wi-rain-mix', // Light intensity drizzle rain
+            311: 'wi-rain-mix', // Drizzle rain
+            312: 'wi-rain-mix', // Heavy intensity drizzle rain
+            313: 'wi-showers', // Shower rain and drizzle
+            314: 'wi-showers', // Heavy shower rain and drizzle
+            321: 'wi-showers', // Shower drizzle
+            500: 'wi-showers', // Light rain
+            501: 'wi-rain', // Moderate rain
+            502: 'wi-rain', // Heavy intensity rain
+            503: 'wi-rain', // Very heavy rain
+            504: 'wi-rain', // Extreme rain
+            511: 'wi-rain-mix', // Freezing rain
+            520: 'wi-showers', // Light intensity shower rain
+            521: 'wi-showers', // Shower rain
+            522: 'wi-showers', // Heavy intensity shower rain
+            531: 'wi-showers', // Ragged shower rain
+            600: 'wi-snow', // Light snow
+            601: 'wi-snow', // Snow
+            602: 'wi-snow', // Heavy snow
+            611: 'wi-sleet', // Sleet
+            612: 'wi-sleet', // Light shower sleet
+            613: 'wi-sleet', // Shower sleet
+            615: 'wi-rain-mix', // Light rain and snow
+            616: 'wi-rain-mix', // Rain and snow
+            620: 'wi-rain-mix', // Light shower snow
+            621: 'wi-snow', // Shower snow
+            622: 'wi-snow', // Heavy shower snow
+            701: 'wi-fog', // Mist
+            711: 'wi-smoke', // Smoke
+            721: 'wi-day-haze', // Haze
+            731: 'wi-dust', // Dust
+            741: 'wi-fog', // Fog
+            751: 'wi-sandstorm', // Sand
+            761: 'wi-dust', // Dust
+            762: 'wi-volcano', // Volcanic ash
+            771: 'wi-strong-wind', // Squalls
+            781: 'wi-tornado', // Tornado
+            800: 'wi-day-sunny', // Clear sky
+            801: 'wi-day-cloudy', // Few clouds
+            802: 'wi-cloud', // Scattered clouds
+            803: 'wi-day-cloudy-high', // Broken clouds
+            804: 'wi-cloudy', // Overcast clouds
+        };
+
+        // Default icon class name
+        let iconName = 'wi-na';
+
+        // Check if the weather ID is mapped to an icon class name
+        if (iconMappings.hasOwnProperty(weatherId)) {
+            iconName = iconMappings[weatherId];
+        }
+
+        return iconName;
+    }
+    %>
+</body>
+
+</html>
